@@ -2,7 +2,7 @@
 session_start();
 
 // Replace these values with your own
-define('TELEGRAM_BOT_TOKEN', '7554267736:AAEUGn9GNcKtPpS2iSF0NNM77s1yG1w2b88); // Your bot token
+define('TELEGRAM_BOT_TOKEN', '7554267736:AAF9vqxrkXCoKe2IDcgYKE8rBwfMC43B5Sk'); // Your bot token
 define('TELEGRAM_BOT_USERNAME', 'YOUR_BOT_USERNAME'); // Your bot username
 
 // Function to get the Telegram login URL

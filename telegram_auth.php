@@ -1,6 +1,6 @@
 <?php
 // Define your bot token
-$bot_token = 'YOUR_BOT_TOKEN';
+$bot_token = '7554267736:AAEUGn9GNcKtPpS2iSF0NNM77s1yG1w2b88';
 
 // Check if Telegram data is provided
 if (!isset($_GET['hash']) || !isset($_GET['id'])) {

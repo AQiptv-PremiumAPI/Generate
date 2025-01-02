@@ -3,7 +3,7 @@ session_start();
 
 // Replace these values with your own
 define('TELEGRAM_BOT_TOKEN', '7554267736:AAF9vqxrkXCoKe2IDcgYKE8rBwfMC43B5Sk'); // Your bot token
-define('TELEGRAM_BOT_USERNAME', 'YOUR_BOT_USERNAME'); // Your bot username
+define('TELEGRAM_BOT_USERNAME', 'AQiptv_AntiFraudBot); // Your bot username
 
 // Function to get the Telegram login URL
 function getTelegramLoginUrl() {

@@ -1,50 +1,40 @@
 <?php
-// Define your bot token
-$bot_token = '7554267736:AAEUGn9GNcKtPpS2iSF0NNM77s1yG1w2b88';
-
-// Check if Telegram data is provided
-if (!isset($_GET['hash']) || !isset($_GET['id'])) {
-    die('No Telegram data received.');
-}
-
-// Extract Telegram data
-$auth_data = $_GET;
-$check_hash = $auth_data['hash'];
-unset($auth_data['hash']);
-
-// Sort data by key
-ksort($auth_data);
-$data_check_string = '';
-foreach ($auth_data as $key => $value) {
-    $data_check_string .= $key . '=' . $value . "\n";
-}
-$data_check_string = trim($data_check_string);
-
-// Create the hash using the bot token
-$secret_key = hash('sha256', $bot_token, true);
-$hash = hash_hmac('sha256', $data_check_string, $secret_key);
-
-// Verify the hash
-if (!hash_equals($hash, $check_hash)) {
-    die('Data is invalid. Possible tampering detected.');
-}
-
-// Optional: Check if the authentication data is recent (e.g., within 24 hours)
-if ((time() - $auth_data['auth_date']) > 86400) {
-    die('Authentication data is too old.');
-}
-
-// Process user data (e.g., save to the database or start a session)
 session_start();
-$_SESSION['telegram_user'] = [
-    'id' => $auth_data['id'],
-    'username' => $auth_data['username'],
-    'first_name' => $auth_data['first_name'],
-    'last_name' => $auth_data['last_name'] ?? '',
-    'photo_url' => $auth_data['photo_url'] ?? '',
-];
 
-// Redirect to your dashboard or homepage
-header('Location: /dashboard.php');
-exit();
+// Replace these values with your own
+define('TELEGRAM_BOT_TOKEN', '7554267736:AAEUGn9GNcKtPpS2iSF0NNM77s1yG1w2b88); // Your bot token
+define('TELEGRAM_BOT_USERNAME', 'YOUR_BOT_USERNAME'); // Your bot username
+
+// Function to get the Telegram login URL
+function getTelegramLoginUrl() {
+    $redirectUrl = 'https://rioiptv.vercel.app'; // Your redirect URL
+    $loginUrl = "https://telegram.me/$TELEGRAM_BOT_USERNAME?start=login&redirect_uri=" . urlencode($redirectUrl);
+    return $loginUrl;
+}
+
+// If the user is redirected back from Telegram
+if (isset($_GET['auth_data'])) {
+    $auth_data = json_decode($_GET['auth_data'], true);
+    // You might want to validate the data signature here
+    // For now, just extracting the user's info
+    $user_id = $auth_data['id'];
+    $username = $auth_data['username'];
+    $first_name = $auth_data['first_name'];
+    $last_name = $auth_data['last_name'];
+
+    // Store user information in session
+    $_SESSION['user'] = [
+        'id' => $user_id,
+        'username' => $username,
+        'first_name' => $first_name,
+        'last_name' => $last_name,
+    ];
+
+    // Redirect to a welcome page
+    header('Location: welcome.php');
+    exit();
+}
+
+// Output the login link
+echo '<a href="' . getTelegramLoginUrl() . '">Login with Telegram</a>';
 ?>
